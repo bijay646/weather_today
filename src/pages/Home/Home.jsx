@@ -3,11 +3,13 @@ import React, { useContext, useEffect, useState } from "react";
 import dayImage from "../../assets/images/day.jpg";
 import nightImage from "../../assets/images/night.jpg";
 
+import HourlyCard from "../../components/HourlyCard/HourlyCard";
 import Layout from "../../components/Layout/Layout";
 import SearchBar from "../../components/SearchBar/SearchBar";
+
 import WeatherContext from "../../contextApi/WeatherContext";
+
 import HomeSkeleton from "./HomeSkeleton";
-import HourlyCard from "../../components/HourlyCard/HourlyCard";
 
 const Home = () => {
   const {

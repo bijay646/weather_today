@@ -4,8 +4,9 @@ import dayImage from "../../assets/images/day.jpg";
 import nightImage from "../../assets/images/night.jpg";
 
 import Layout from "../../components/Layout/Layout";
-import WeatherContext from "../../contextApi/WeatherContext";
 import DailyCard from "../../components/DailyCard/DailyCard";
+
+import WeatherContext from "../../contextApi/WeatherContext";
 
 const WeatherDetails = () => {
   const { weatherData, isDay } = useContext(WeatherContext);

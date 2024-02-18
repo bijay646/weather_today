@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 
-import WeatherContext from "./WeatherContext";
 import WeatherApi from "../api/Weather/WeatherApi";
+
+import WeatherContext from "./WeatherContext";
 
 const WeatherState = (props) => {
   const [weatherData, setWeatherData] = useState({});
