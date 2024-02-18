@@ -1,75 +1,99 @@
 import React, { useContext, useEffect, useState } from "react";
 
+import dayImage from "../../assets/images/day.jpg";
 import nightImage from "../../assets/images/night.jpg";
 
 import Layout from "../../components/Layout/Layout";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import WeatherContext from "../../contextApi/WeatherContext";
+import HomeSkeleton from "./HomeSkeleton";
+import HourlyCard from "../../components/HourlyCard/HourlyCard";
 
 const Home = () => {
-  const { weatherData, getWeatherData, hourlyData } =
-    useContext(WeatherContext);
-  const [city, setCity] = useState("kathmandu");
+  const {
+    isDay,
+    weatherData,
+    getWeatherData,
+    hourlyData,
+    error,
+    initialRender,
+    setInitialRender,
+    isLoading,
+  } = useContext(WeatherContext);
+  const [city, setCity] = useState("");
 
-  const handleSearch = (e) => {
+  const layoutImage = isDay ? dayImage : nightImage;
+
+  const handleSearch = async (e) => {
     e.preventDefault();
 
-    getWeatherData();
+    const result = await getWeatherData(city);
+
+    if (result.success) setCity("");
   };
 
+  const searchErrorText = error && (
+    <p className="my-2 fw-medium fs-5 text-danger">{error}</p>
+  );
+
   useEffect(() => {
-    getWeatherData();
+    if (initialRender) return;
+
+    (async () => {
+      setInitialRender(true);
+      const result = await getWeatherData(city);
+
+      if (result.success) setCity("");
+    })();
   }, []);
-
-  useEffect(() => {}, [weatherData]);
-
-  console.log(weatherData?.forecast?.forecastday?.[0].hour);
 
   return (
     <Layout>
       <div
         className="home-page-layout py-5"
         style={{
-          backgroundImage: `url(${nightImage})`,
+          backgroundImage: `url(${layoutImage})`,
           height: "auto",
           backgroundSize: "cover",
         }}
       >
-        <div className="container d-flex flex-column align-items-center">
-          <SearchBar
-            city={city}
-            setCity={setCity}
-            handleSearch={handleSearch}
-          />
-          <img
-            className="title-weather-icon"
-            src={weatherData?.current?.condition.icon}
-            alt="weather icon"
-          />
-          <h1 className="text-white">{weatherData?.current?.condition.text}</h1>
-          <p className="text-white my-0 ">{weatherData?.location?.name}</p>
-          <p className="text-white mb-0">{weatherData?.location?.localtime}</p>
-          <p className="text-white d-flex align-items-start title-temperature-text">
-            <span>{weatherData?.current?.temp_c}</span>
-            <span>&deg;</span>
-          </p>
-          <p className="text-white">Hourly Forecast</p>
-          <div className="hourly-forecast-layout d-flex gap-2 flex-wrap justify-content-center">
-            {hourlyData.length > 0 &&
-              hourlyData.map((item) => (
-                <div className="hourly-card d-flex justify-content-center  align-items-center flex-column shadow-lg p-3 rounded-3 ">
-                  <p className="text-white">
-                    {new Date(item.time).toLocaleTimeString()}
-                  </p>
-                  <img src={item.condition.icon} />
-                  <p className="text-white d-flex align-items-start">
-                    <span>{item.temp_c}</span>
-                    <span>&deg;</span>
-                  </p>
-                </div>
-              ))}
+        {isLoading && !initialRender ? (
+          <HomeSkeleton />
+        ) : (
+          <div
+            className={`container text-center  d-flex flex-column align-items-center ${
+              !isDay && "text-white"
+            }`}
+          >
+            <SearchBar
+              city={city}
+              setCity={setCity}
+              handleSearch={handleSearch}
+            />
+            {searchErrorText}
+            <img
+              className="title-weather-icon"
+              src={weatherData?.current?.condition.icon}
+              alt="weather icon"
+            />
+            <h1 className="weather-condition-text">
+              {weatherData?.current?.condition.text}
+            </h1>
+            <p className="my-0 fs-5">{weatherData?.location?.name}</p>
+            <p className="mb-0">{weatherData?.location?.localtime}</p>
+            <p className="d-flex align-items-start title-temperature-text">
+              <span>{weatherData?.current?.temp_c}</span>
+              <span>&deg;</span>
+            </p>
+            <p className="weather-hourly-text">Hourly Forecast</p>
+            <div className="row hourly-forecast-layout w-100 gap-3">
+              {hourlyData.length > 0 &&
+                hourlyData.map((item, index) => (
+                  <HourlyCard isDay={isDay} hourlyInfo={item} key={index} />
+                ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </Layout>
   );

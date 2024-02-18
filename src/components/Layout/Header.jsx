@@ -1,5 +1,6 @@
 import React from "react";
 import { HOME, WEATHER_DETAILS } from "../../constants/routes";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
@@ -7,10 +8,10 @@ const Header = () => {
       className="navbar navbar-expand-lg rounded container"
       aria-label="Eleventh navbar example"
     >
-      <div className="container-fluid">
-        <a className="navbar-brand fw-bold fs-3" href={HOME.INDEX}>
+      <div className="container-fluid py-3">
+        <Link className="navbar-brand fs-3" to={HOME.INDEX}>
           WEATHER TODAY
-        </a>
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -26,14 +27,14 @@ const Header = () => {
         <div className="collapse navbar-collapse" id="navbarsExample09">
           <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <a className="nav-link" aria-current="page" href={HOME.INDEX}>
+              <Link className="nav-link" aria-current="page" to={HOME.INDEX}>
                 Home
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href={WEATHER_DETAILS.INDEX}>
-                Link
-              </a>
+              <Link className="nav-link" to={WEATHER_DETAILS.INDEX}>
+                Details
+              </Link>
             </li>
           </ul>
         </div>
