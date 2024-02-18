@@ -1,0 +1,39 @@
+.weather-details-layout {
+  background: linear-gradient(
+    to bottom right,
+    rgb(128, 187, 211),
+    rgb(75, 172, 96)
+  );
+
+  .detail-weather-icon {
+    width: 120px;
+  }
+
+  .current-weather-card {
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3));
+  }
+
+  .daily-forecast-layout {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3));
+    background-repeat: no-repeat;
+    background-size: cover;
+    box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset,
+      rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+      rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+
+    .daily-card {
+      background-image: linear-gradient(
+        rgba(236, 221, 221, 0.3),
+        rgba(233, 222, 222, 0.3)
+      );
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    .daily-weather-icon {
+      width: 6.25rem;
+      height: auto;
+    }
+  }
+}
